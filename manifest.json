@@ -1,0 +1,11 @@
+{
+	"name": "Github Dashboard Descriptions",
+	"version": "1.0",
+	"description": "An extension which adds a box over a project in Github's dashboard when you hover over it. Useful for your watch list.",
+	"content_scripts" : [{
+		"css":["css/box.css"],
+		"matches":["https://*.github.com/*", "http://*.github.com/*"],
+		"js":["scripts/jquery.js","scripts/gh-desc.js"],
+		"run_at": "document_end"
+	}]
+}
