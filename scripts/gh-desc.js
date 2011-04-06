@@ -69,6 +69,7 @@ function addTitle (element) {
 			repodata = getItem(repo);
 		}	
 		$this.attr('title',repodata);
+		$this.parent().append('<span style="font-size:10px;">'+repodata+'</span>');
 	}
 }
 
