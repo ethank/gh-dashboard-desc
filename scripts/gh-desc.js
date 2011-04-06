@@ -2,22 +2,73 @@ var github_url = 'https://github.com/api/v2/json/repos/show'; // Github API URL
 var to_add = [];
 
 /**
+* Local Storage Methods
+*/
+//sets the item in the localstorage
+function setItem(key, value) {
+  try {
+    log("Inside setItem:" + key + ":" + value);
+    window.localStorage.removeItem(key);
+    window.localStorage.setItem(key, value);
+  }catch(e) {
+    log("Error inside setItem");
+    log(e);
+  }
+  log("Return from setItem" + key + ":" +  value);
+}
+//Gets the item from local storage with the specified
+//key
+function getItem(key) {
+  var value;
+  log('Get Item:' + key);
+  try {
+    value = window.localStorage.getItem(key);
+  }catch(e) {
+    log("Error inside getItem() for key:" + key);
+	  log(e);
+	  value = "null";
+  }
+  log("Returning value: " + value);
+  return value;
+}
+//Clears all the key value pairs in the local storage
+function clearStrg() {
+  log('about to clear local storage');
+  window.localStorage.clear();
+  log('cleared');
+}
+
+function log(txt) {
+    console.log(txt);
+}
+
+
+/**
 * Add the title to the element
 */
 
 function addTitle (element) {
 	var $this = element;
+	var repodata;
 	var repo = $this.attr('pathname');
 	// If title isn't there...
 	if (!$this.attr('title')) {
-		// Call Github API for the repo data
-		$.ajax({
-			url: github_url + repo,
-			success: function(data) {
-				// Set the title
-				$this.attr('title',data['repository']['description']);
-			}
-		});
+		// Check to see if it's in local storage
+		if (!getItem(repo)) {
+			// Call Github API for the repo data
+			$.ajax({
+				url: github_url + repo,
+				success: function(data) {
+					// Set the title
+					setItem(repo,data['repository']['description']);
+					repodata = getItem(repo);
+				}
+			});
+		}
+		else {
+			repodata = getItem(repo);
+		}	
+		$this.attr('title',repodata);
 	}
 }
 
