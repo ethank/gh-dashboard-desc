@@ -68,8 +68,9 @@ function addTitle (element) {
 		else {
 			repodata = getItem(repo);
 		}	
-		$this.attr('title',repodata);
-		$this.parent().append('<span style="font-size:10px;">'+repodata+'</span>');
+		//$this.attr('title',repodata);
+		$this.parent().append('<div class="repodesc" style="font-size:10px;display:none;">'+repodata+'</div>');
+		$this.parent().hover(function(){$this.parent().children(".repodesc").slideDown();},function(){$this.parent().children(".repodesc").slideUp();});
 	}
 }
 
